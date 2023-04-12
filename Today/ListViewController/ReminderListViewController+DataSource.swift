@@ -2,7 +2,7 @@
 //  ReminderListViewController+DataSource.swift
 //  Today
 //
-//  Created by Ly Gia Huy on 11/04/2023.
+//  Created by Ly Gia Huy on 12/04/2023.
 //
 
 import UIKit
@@ -20,16 +20,27 @@ extension ReminderListViewController {
         cellConfiguration.secondaryTextProperties.font = UIFont.preferredFont(forTextStyle: .caption1)
         cell.contentConfiguration = cellConfiguration
 
+        var doneConfigurations = doneButtonConfiguration(for: reminder)
+        doneConfigurations.tintColor = .todayListCellDoneButtonTint
+
+        cell.accessories = [
+            .customView(configuration: doneConfigurations),
+            .disclosureIndicator(),
+        ]
+
         var backgroundConfiguration = UIBackgroundConfiguration.listGroupedCell()
         backgroundConfiguration.backgroundColor = .todayListCellBackground
         cell.backgroundConfiguration = backgroundConfiguration
     }
 
     private func doneButtonConfiguration(for reminder: Reminder) -> UICellAccessory.CustomViewConfiguration {
-        let symbolName = reminder.isComplete ? "Circle.fill" : "Circle"
+        let symbolName = reminder.isComplete ? "circle.fill" : "circle"
         let symbolConfiguration = UIImage.SymbolConfiguration(textStyle: .title1)
         let image = UIImage(systemName: symbolName, withConfiguration: symbolConfiguration)
-        var button = UIButton()
+        let button = UIButton()
+
         button.setImage(image, for: .normal)
+
+        return UICellAccessory.CustomViewConfiguration(customView: button, placement: .leading(displayed: .always))
     }
 }
