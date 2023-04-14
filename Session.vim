@@ -18,19 +18,18 @@ badd +31 Today/ReminderListViewController.swift
 badd +363 /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/Library/Frameworks/UIKit.framework/Headers/UICollectionView.h
 badd +1158 ~/nvim-nightly/share/nvim/runtime/lua/vim/lsp/util.lua
 badd +59 /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/Library/Frameworks/UIKit.framework/Headers/UICollectionViewCompositionalLayout.h
-badd +18 Today/Models/Date+Today.swift
+badd +23 Today/Models/Date+Today.swift
 badd +12 /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/usr/lib/swift/UIKit.swiftmodule/x86_64-apple-ios-simulator.swiftinterface
 badd +12 /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/Library/Frameworks/Foundation.framework/Modules/Foundation.swiftmodule/x86_64-apple-ios-simulator.swiftinterface
 badd +43 Today/ListViewController/ReminderListViewController+DataSource.swift
-badd +13 .compile
-badd +44 Today/Models/Reminder.swift
+badd +2 .compile
+badd +7 Today/Models/Reminder.swift
 badd +1 buildServer.json
 badd +19 /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/UIKit.framework/Headers/UICollectionViewListCell.h
 badd +17 /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/Library/Frameworks/UIKit.framework/Headers/UICollectionViewListCell.h
 badd +1 Today/ListViewController
 badd +18 Today/Models/UIColor+Today.swift
 badd +1 Today/Assets.xcassets/TodayListCellBackground.colorset/Contents.json
-badd +1 Today/makefile
 badd +2 Configuration/SampleCode.xcconfig
 badd +127 term://~/personal/Todo//15095:/bin/zsh
 badd +2 /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/usr/lib/swift/UIKit.swiftmodule/arm64-apple-ios-simulator.swiftinterface
@@ -40,18 +39,36 @@ badd +60 /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.pl
 badd +44 /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIButton.h
 badd +353 Today.xcodeproj/project.pbxproj
 badd +11 Today/ListViewController/ReminderListController+Actions.swift
-badd +30 Today/ReminderViewController.swift
+badd +18 Today/ReminderViewController.swift
 badd +11 Today/DetailViewController/ReminderViewController+Row.swift
 badd +22 /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/Library/Frameworks/UIKit.framework/Headers/UICollectionViewController.h
 badd +181 /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIFontDescriptor.h
 badd +1 Today/DetailViewController
-badd +38 Today/SceneDelegate.swift
+badd +10 Today/SceneDelegate.swift
+badd +4 makefile
 argglobal
 %argdel
 $argadd ~/personal/Todo
-edit Today/ReminderViewController.swift
+edit makefile
+let s:save_splitbelow = &splitbelow
+let s:save_splitright = &splitright
+set splitbelow splitright
+wincmd _ | wincmd |
+vsplit
+1wincmd h
+wincmd w
+let &splitbelow = s:save_splitbelow
+let &splitright = s:save_splitright
+wincmd t
+let s:save_winminheight = &winminheight
+let s:save_winminwidth = &winminwidth
+set winminheight=0
+set winheight=1
+set winminwidth=0
+set winwidth=1
+exe 'vert 1resize ' . ((&columns * 128 + 128) / 256)
+exe 'vert 2resize ' . ((&columns * 127 + 128) / 256)
 argglobal
-balt Today/Models/Reminder.swift
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -62,13 +79,41 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 39 - ((30 * winheight(0) + 25) / 50)
+let s:l = 5 - ((4 * winheight(0) + 31) / 62)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 39
+keepjumps 5
 normal! 0
 lcd ~/personal/Todo
+wincmd w
+argglobal
+if bufexists(fnamemodify("~/personal/Todo/Today/ReminderViewController.swift", ":p")) | buffer ~/personal/Todo/Today/ReminderViewController.swift | else | edit ~/personal/Todo/Today/ReminderViewController.swift | endif
+if &buftype ==# 'terminal'
+  silent file ~/personal/Todo/Today/ReminderViewController.swift
+endif
+balt ~/personal/Todo/makefile
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let &fdl = &fdl
+let s:l = 18 - ((17 * winheight(0) + 31) / 62)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 18
+normal! 09|
+lcd ~/personal/Todo
+wincmd w
+2wincmd w
+exe 'vert 1resize ' . ((&columns * 128 + 128) / 256)
+exe 'vert 2resize ' . ((&columns * 127 + 128) / 256)
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf
@@ -76,12 +121,15 @@ endif
 unlet! s:wipebuf
 set winheight=1 winwidth=20
 let &shortmess = s:shortmess_save
+let &winminheight = s:save_winminheight
+let &winminwidth = s:save_winminwidth
 let s:sx = expand("<sfile>:p:r")."x.vim"
 if filereadable(s:sx)
   exe "source " . fnameescape(s:sx)
 endif
 let &g:so = s:so_save | let &g:siso = s:siso_save
 set hlsearch
+nohlsearch
 let g:this_session = v:this_session
 let g:this_obsession = v:this_session
 doautoall SessionLoadPost

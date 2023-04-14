@@ -9,6 +9,8 @@ import UIKit
 
 class ReminderViewController: UICollectionViewController {
     private typealias DataSource = UICollectionViewDiffableDataSource<Int, Row>
+    private typealias Snapshot = UICollectionViewDiffableDataSource<Int, Row>
+
     var reminder: Reminder
 
     private var datasource: DataSource!
@@ -22,9 +24,16 @@ class ReminderViewController: UICollectionViewController {
         super.init(collectionViewLayout: listLayout)
     }
 
-    @available(*, unavailable)
     required init?(coder _: NSCoder) {
         fatalError("Always initialize ReminderViewController using init(reminder:)")
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        let cellRegistration = UICollectionView.CellRegistration(handler: cellRegistrationHandler)
+        datasource = DataSource(collectionView: collectionView) { (collectionView: UICollectionView, indexPath: IndexPath, itemIdentifier: Row) in
+            collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
+        }
     }
 
     func cellRegistrationHandler(cell: UICollectionViewListCell, indexPath _: IndexPath, row: Row) {
