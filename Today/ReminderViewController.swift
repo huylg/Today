@@ -8,8 +8,8 @@
 import UIKit
 
 class ReminderViewController: UICollectionViewController {
-    private typealias DataSource = UICollectionViewDiffableDataSource<Int, Row>
-    private typealias Snapshot = UICollectionViewDiffableDataSource<Int, Row>
+    private typealias DataSource = UICollectionViewDiffableDataSource<Section, Row>
+    private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Row>
 
     var reminder: Reminder
 
@@ -24,6 +24,7 @@ class ReminderViewController: UICollectionViewController {
         super.init(collectionViewLayout: listLayout)
     }
 
+    @available(*, unavailable)
     required init?(coder _: NSCoder) {
         fatalError("Always initialize ReminderViewController using init(reminder:)")
     }
@@ -34,6 +35,28 @@ class ReminderViewController: UICollectionViewController {
         datasource = DataSource(collectionView: collectionView) { (collectionView: UICollectionView, indexPath: IndexPath, itemIdentifier: Row) in
             collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
         }
+        navigationItem.title = NSLocalizedString("Reminder", comment: "Reminder view controller title")
+
+        if #available(iOS 16, *) {
+            navigationItem.style = .navigator
+        }
+
+        updateSnapshot()
+    }
+
+    private func updateSnapshot() {
+        var snapshot = Snapshot()
+        snapshot.appendSections([.view])
+        snapshot.appendItems([Row.title, Row.date, Row.time, Row.notes], toSection: .view)
+        datasource.apply(snapshot)
+    }
+
+    private func section(for indexPath: IndexPath) -> Section {
+        let sectionNumber = isEditing ? indexPath.section + 1 : indexPath.section
+        guard let section = Section(rawValue: sectionNumber) else {
+            fatalError("Unable to find matching section")
+        }
+        return section
     }
 
     func cellRegistrationHandler(cell: UICollectionViewListCell, indexPath _: IndexPath, row: Row) {

@@ -18,7 +18,7 @@ extension ReminderViewController {
             switch self {
             case .date: return "calendar.circle"
             case .notes: return "square.and.pencil"
-            case .time: return "time"
+            case .time: return "clock"
             default: return nil
             }
         }

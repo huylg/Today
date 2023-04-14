@@ -8,6 +8,11 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_: UIApplication, didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        UINavigationBar.appearance().tintColor = .todayPrimaryTint
+        UINavigationBar.appearance().backgroundColor = .todayNavigationBackground
+        let navigationBarAppearance = UINavigationBarAppearance()
+        navigationBarAppearance.configureWithOpaqueBackground()
+        UINavigationBar.appearance().scrollEdgeAppearance = navigationBarAppearance
         return true
     }
 
