@@ -39,7 +39,7 @@ badd +60 /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.pl
 badd +44 /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIButton.h
 badd +353 Today.xcodeproj/project.pbxproj
 badd +11 Today/ListViewController/ReminderListController+Actions.swift
-badd +69 Today/ReminderViewController.swift
+badd +74 Today/ReminderViewController.swift
 badd +18 Today/DetailViewController/ReminderViewController+Row.swift
 badd +22 /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/Library/Frameworks/UIKit.framework/Headers/UICollectionViewController.h
 badd +181 /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIFontDescriptor.h
@@ -68,12 +68,12 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 67 - ((48 * winheight(0) + 33) / 67)
+let s:l = 71 - ((18 * winheight(0) + 19) / 39)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 67
-normal! 0
+keepjumps 71
+normal! 024|
 lcd ~/personal/Todo
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'

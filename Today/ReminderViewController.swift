@@ -67,6 +67,11 @@ class ReminderViewController: UICollectionViewController {
 
     func cellRegistrationHandler(cell: UICollectionViewListCell, indexPath: IndexPath, row: Row) {
         let section = section(for: indexPath)
+        switch (section, row) {
+        case (.view, _):
+        default:
+            fatalError("Unexpected combination of section and row")
+        }
         var contentConfiguration = cell.defaultContentConfiguration()
         contentConfiguration.text = text(for: row)
         contentConfiguration.textProperties.font = UIFont.preferredFont(forTextStyle: row.textStyle)
