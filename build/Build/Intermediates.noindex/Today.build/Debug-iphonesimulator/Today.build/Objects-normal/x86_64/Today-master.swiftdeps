@@ -1,0 +1,17 @@
+version: "Apple Swift version 5.7.2 (swiftlang-5.7.2.135.5 clang-1400.0.29.51)"
+options: "80b01bd0810de49bcebae9ee8cb85c54d316162a1977a1256ac66e7746bdbf65"
+build_start_time: [1681618972, 675771951]
+build_end_time: [1681618992, 25960922]
+inputs:
+  "/Users/hlg/personal/Todo/Today/AppDelegate.swift": [1681488989, 590795993]
+  "/Users/hlg/personal/Todo/Today/DetailViewController/ReminderViewController+Row.swift": [1681488989, 594544410]
+  "/Users/hlg/personal/Todo/Today/DetailViewController/ReminderViewController+Section.swift": [1681488989, 595431804]
+  "/Users/hlg/personal/Todo/Today/ListViewController/ReminderListController+Actions.swift": [1681401531, 293951988]
+  "/Users/hlg/personal/Todo/Today/ListViewController/ReminderListViewController+DataSource.swift": [1681401531, 295155525]
+  "/Users/hlg/personal/Todo/Today/Models/Date+Today.swift": [1681401531, 307160854]
+  "/Users/hlg/personal/Todo/Today/Models/Reminder.swift": [1681401531, 308979988]
+  "/Users/hlg/personal/Todo/Today/Models/UIColor+Today.swift": [1681226715, 33689022]
+  "/Users/hlg/personal/Todo/Today/ReminderDoneButton.swift": [1681360960, 565160512]
+  "/Users/hlg/personal/Todo/Today/ReminderListViewController.swift": [1681488989, 596767187]
+  "/Users/hlg/personal/Todo/Today/ReminderViewController.swift": [1681612821, 347868442]
+  "/Users/hlg/personal/Todo/Today/SceneDelegate.swift": [1681313173, 926401138]
