@@ -22,7 +22,7 @@ badd +23 Today/Models/Date+Today.swift
 badd +12 /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/usr/lib/swift/UIKit.swiftmodule/x86_64-apple-ios-simulator.swiftinterface
 badd +12 /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/Library/Frameworks/Foundation.framework/Modules/Foundation.swiftmodule/x86_64-apple-ios-simulator.swiftinterface
 badd +29 Today/ListViewController/ReminderListViewController+DataSource.swift
-badd +20 .compile
+badd +17 .compile
 badd +26 Today/Models/Reminder.swift
 badd +1 buildServer.json
 badd +19 /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/UIKit.framework/Headers/UICollectionViewListCell.h
@@ -39,8 +39,8 @@ badd +60 /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.pl
 badd +44 /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIButton.h
 badd +353 Today.xcodeproj/project.pbxproj
 badd +11 Today/ListViewController/ReminderListController+Actions.swift
-badd +38 Today/ReminderViewController.swift
-badd +5 Today/DetailViewController/ReminderViewController+Row.swift
+badd +83 Today/ReminderViewController.swift
+badd +24 Today/DetailViewController/ReminderViewController+Row.swift
 badd +22 /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/Library/Frameworks/UIKit.framework/Headers/UICollectionViewController.h
 badd +181 /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIFontDescriptor.h
 badd +1 Today/DetailViewController
@@ -49,24 +49,21 @@ badd +8 makefile
 badd +1 Today
 badd +16 Today/AppDelegate.swift
 badd +27 Today/DetailViewController/ReminderViewController+Section.swift
-badd +1 ~/Library/Developer/Xcode/DerivedData/Today-etvqmfyxdcoqnmelnkprhievgwqw/Build/Intermediates.noindex/Today.build/Debug-iphonesimulator/Today.build/Objects-normal/arm64/Today.SwiftFileList
+badd +10 ~/Library/Developer/Xcode/DerivedData/Today-etvqmfyxdcoqnmelnkprhievgwqw/Build/Intermediates.noindex/Today.build/Debug-iphonesimulator/Today.build/Objects-normal/arm64/Today.SwiftFileList
 badd +356 /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIViewController.h
-badd +15352 ~/.local/state/nvim/lsp.log
-badd +34 Today/DetailViewController/ReminderViewController+CellConfiguration.swift
-badd +22 Today/ContentViews/UIView+PinnedSubview.swift
+badd +1 ~/.local/state/nvim/lsp.log
+badd +30 Today/DetailViewController/ReminderViewController+CellConfiguration.swift
+badd +18 Today/ContentViews/UIView+PinnedSubview.swift
+badd +17 Today/ContentViews/TextFieldContentView.swift
+badd +3 Today/ReminderDoneButton.swift
+badd +11 Today/ContentViews/TextViewContentView.swift
+badd +38 Today/ContentViews/DataPickerContentView.swift
 argglobal
 %argdel
 $argadd ~/personal/Todo
-edit Today/ContentViews/UIView+PinnedSubview.swift
-wincmd t
-let s:save_winminheight = &winminheight
-let s:save_winminwidth = &winminwidth
-set winminheight=0
-set winheight=1
-set winminwidth=0
-set winwidth=1
+edit Today/ContentViews/DataPickerContentView.swift
 argglobal
-balt ~/personal/Todo
+balt Today/ContentViews/TextViewContentView.swift
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -77,12 +74,12 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 22 - ((21 * winheight(0) + 18) / 37)
+let s:l = 38 - ((37 * winheight(0) + 33) / 67)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 22
-normal! 034|
+keepjumps 38
+normal! 0
 lcd ~/personal/Todo
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
@@ -91,14 +88,13 @@ endif
 unlet! s:wipebuf
 set winheight=1 winwidth=20
 let &shortmess = s:shortmess_save
-let &winminheight = s:save_winminheight
-let &winminwidth = s:save_winminwidth
 let s:sx = expand("<sfile>:p:r")."x.vim"
 if filereadable(s:sx)
   exe "source " . fnameescape(s:sx)
 endif
 let &g:so = s:so_save | let &g:siso = s:siso_save
 set hlsearch
+nohlsearch
 let g:this_session = v:this_session
 let g:this_obsession = v:this_session
 doautoall SessionLoadPost

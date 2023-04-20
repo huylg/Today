@@ -65,9 +65,9 @@ class ReminderViewController: UICollectionViewController {
     private func updateSnapshotForEditing() {
         var snapshot = Snapshot()
         snapshot.appendSections([.title, .date, .notes])
-        snapshot.appendItems([.header(Section.title.name)], toSection: .title)
-        snapshot.appendItems([.header(Section.date.name)], toSection: .date)
-        snapshot.appendItems([.header(Section.notes.name)], toSection: .notes)
+        snapshot.appendItems([.header(Section.title.name), .editableText(reminder.title)], toSection: .title)
+        snapshot.appendItems([.header(Section.date.name), .editableDate(reminder.dueDate)], toSection: .date)
+        snapshot.appendItems([.header(Section.notes.name), .editableText(reminder.notes)], toSection: .notes)
         datasource.apply(snapshot)
     }
 
@@ -86,6 +86,12 @@ class ReminderViewController: UICollectionViewController {
             cell.contentConfiguration = headerConfiguration(for: cell, with: title)
         case (.view, _):
             cell.contentConfiguration = defaultConfiguration(for: cell, at: row)
+        case let (.title, .editableText(title)):
+            cell.contentConfiguration = titleConfiguration(for: cell, with: title)
+        case let (.date, .editableDate(date)):
+            cell.contentConfiguration = dueDateConfiguration(for: cell, with: date)
+        case let (.notes, .editableText(notes)):
+            cell.contentConfiguration = notesConfiguration(for: cell, with: notes)
         default:
             fatalError("Unexpected combination of section and row")
         }
