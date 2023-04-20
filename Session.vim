@@ -14,7 +14,7 @@ else
   set shortmess=aoO
 endif
 badd +1 ~/personal/Todo
-badd +29 Today/ReminderListViewController.swift
+badd +1 Today/ReminderListViewController.swift
 badd +363 /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/Library/Frameworks/UIKit.framework/Headers/UICollectionView.h
 badd +1158 ~/nvim-nightly/share/nvim/runtime/lua/vim/lsp/util.lua
 badd +59 /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/Library/Frameworks/UIKit.framework/Headers/UICollectionViewCompositionalLayout.h
@@ -23,7 +23,7 @@ badd +12 /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.pl
 badd +12 /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/Library/Frameworks/Foundation.framework/Modules/Foundation.swiftmodule/x86_64-apple-ios-simulator.swiftinterface
 badd +29 Today/ListViewController/ReminderListViewController+DataSource.swift
 badd +17 .compile
-badd +26 Today/Models/Reminder.swift
+badd +7 Today/Models/Reminder.swift
 badd +1 buildServer.json
 badd +19 /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/UIKit.framework/Headers/UICollectionViewListCell.h
 badd +17 /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/Library/Frameworks/UIKit.framework/Headers/UICollectionViewListCell.h
@@ -39,7 +39,7 @@ badd +60 /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.pl
 badd +44 /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIButton.h
 badd +353 Today.xcodeproj/project.pbxproj
 badd +11 Today/ListViewController/ReminderListController+Actions.swift
-badd +83 Today/ReminderViewController.swift
+badd +39 Today/ReminderViewController.swift
 badd +24 Today/DetailViewController/ReminderViewController+Row.swift
 badd +22 /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/Library/Frameworks/UIKit.framework/Headers/UICollectionViewController.h
 badd +181 /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIFontDescriptor.h
@@ -57,13 +57,13 @@ badd +18 Today/ContentViews/UIView+PinnedSubview.swift
 badd +17 Today/ContentViews/TextFieldContentView.swift
 badd +3 Today/ReminderDoneButton.swift
 badd +11 Today/ContentViews/TextViewContentView.swift
-badd +38 Today/ContentViews/DataPickerContentView.swift
+badd +35 Today/ContentViews/DataPickerContentView.swift
 argglobal
 %argdel
 $argadd ~/personal/Todo
-edit Today/ContentViews/DataPickerContentView.swift
+edit Today/ReminderViewController.swift
 argglobal
-balt Today/ContentViews/TextViewContentView.swift
+balt Today/ReminderListViewController.swift
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -74,12 +74,12 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 38 - ((37 * winheight(0) + 33) / 67)
+let s:l = 53 - ((47 * winheight(0) + 33) / 67)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 38
-normal! 0
+keepjumps 53
+normal! 031|
 lcd ~/personal/Todo
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
