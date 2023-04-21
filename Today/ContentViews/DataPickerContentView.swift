@@ -11,6 +11,8 @@ class DatePickerContentView: UIView, UIContentView {
     struct Configuration: UIContentConfiguration {
         var date: Date
 
+        var onChange: (Date) -> Void = { _ in }
+
         func makeContentView() -> UIView & UIContentView {
             DatePickerContentView(self)
         }
@@ -29,6 +31,7 @@ class DatePickerContentView: UIView, UIContentView {
         super.init(frame: .zero)
         addPinnedSubview(datePicker)
         datePicker.preferredDatePickerStyle = .inline
+        datePicker.addTarget(self, action: #selector(didChange(_:)), for: .valueChanged)
     }
 
     override var intrinsicContentSize: CGSize {
@@ -38,6 +41,12 @@ class DatePickerContentView: UIView, UIContentView {
     func configure(_ configuration: UIContentConfiguration) {
         if let configuration = configuration as? Configuration {
             datePicker.date = configuration.date
+        }
+    }
+
+    @objc private func didChange(_ sender: UIDatePicker) {
+        if let configuration = configuration as? Configuration {
+            configuration.onChange(sender.date)
         }
     }
 

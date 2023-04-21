@@ -4,6 +4,8 @@ class TextFieldContentView: UIView, UIContentView {
     struct Configuration: UIContentConfiguration {
         var text: String? = ""
 
+        var onChange: (String) -> Void = { _ in }
+
         func makeContentView() -> UIView & UIContentView {
             TextFieldContentView(self)
         }
@@ -26,6 +28,7 @@ class TextFieldContentView: UIView, UIContentView {
         super.init(frame: .zero)
         addPinnedSubview(textField, insets: UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16))
         textField.clearButtonMode = .whileEditing
+        textField.addTarget(self, action: #selector(didChange(sender:)), for: .editingChanged)
     }
 
     @available(*, unavailable)
@@ -36,6 +39,12 @@ class TextFieldContentView: UIView, UIContentView {
     func configure(configuration: UIContentConfiguration) {
         if let configuration = configuration as? Configuration {
             textField.text = configuration.text
+        }
+    }
+
+    @objc private func didChange(sender: UITextField) {
+        if let configuration = configuration as? Configuration {
+            configuration.onChange(sender.text ?? "")
         }
     }
 }

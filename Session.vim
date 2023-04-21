@@ -3,7 +3,7 @@ let s:so_save = &g:so | let s:siso_save = &g:siso | setg so=0 siso=0 | setl so=-
 let v:this_session=expand("<sfile>:p")
 silent only
 silent tabonly
-cd ~/personal/Todo
+cd ~/personal/Today
 if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
   let s:wipebuf = bufnr('%')
 endif
@@ -13,6 +13,7 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
+badd +1 ~/personal/Today
 badd +1 ~/personal/Todo
 badd +1 Today/ReminderListViewController.swift
 badd +363 /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/Library/Frameworks/UIKit.framework/Headers/UICollectionView.h
@@ -23,7 +24,7 @@ badd +12 /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.pl
 badd +12 /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/Library/Frameworks/Foundation.framework/Modules/Foundation.swiftmodule/x86_64-apple-ios-simulator.swiftinterface
 badd +29 Today/ListViewController/ReminderListViewController+DataSource.swift
 badd +17 .compile
-badd +7 Today/Models/Reminder.swift
+badd +10 Today/Models/Reminder.swift
 badd +1 buildServer.json
 badd +19 /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/UIKit.framework/Headers/UICollectionViewListCell.h
 badd +17 /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/Library/Frameworks/UIKit.framework/Headers/UICollectionViewListCell.h
@@ -39,7 +40,7 @@ badd +60 /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.pl
 badd +44 /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIButton.h
 badd +353 Today.xcodeproj/project.pbxproj
 badd +11 Today/ListViewController/ReminderListController+Actions.swift
-badd +39 Today/ReminderViewController.swift
+badd +101 Today/ReminderViewController.swift
 badd +24 Today/DetailViewController/ReminderViewController+Row.swift
 badd +22 /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/Library/Frameworks/UIKit.framework/Headers/UICollectionViewController.h
 badd +181 /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIFontDescriptor.h
@@ -52,18 +53,19 @@ badd +27 Today/DetailViewController/ReminderViewController+Section.swift
 badd +10 ~/Library/Developer/Xcode/DerivedData/Today-etvqmfyxdcoqnmelnkprhievgwqw/Build/Intermediates.noindex/Today.build/Debug-iphonesimulator/Today.build/Objects-normal/arm64/Today.SwiftFileList
 badd +356 /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIViewController.h
 badd +1 ~/.local/state/nvim/lsp.log
-badd +30 Today/DetailViewController/ReminderViewController+CellConfiguration.swift
+badd +38 Today/DetailViewController/ReminderViewController+CellConfiguration.swift
 badd +18 Today/ContentViews/UIView+PinnedSubview.swift
-badd +17 Today/ContentViews/TextFieldContentView.swift
+badd +52 Today/ContentViews/TextFieldContentView.swift
 badd +3 Today/ReminderDoneButton.swift
-badd +11 Today/ContentViews/TextViewContentView.swift
-badd +35 Today/ContentViews/DataPickerContentView.swift
+badd +6 Today/ContentViews/TextViewContentView.swift
+badd +22 Today/ContentViews/DataPickerContentView.swift
+badd +17 ~/Library/Developer/Xcode/DerivedData/Today-etvqmfyxdcoqnmelnkprhievgwqw/Build/Intermediates.noindex/Today.build/Debug-iphonesimulator/Today.build/Objects-normal/x86_64/Today.SwiftFileList
 argglobal
 %argdel
 $argadd ~/personal/Todo
 edit Today/ReminderViewController.swift
 argglobal
-balt Today/ReminderListViewController.swift
+balt Today/ContentViews/DataPickerContentView.swift
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -74,13 +76,12 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 53 - ((47 * winheight(0) + 33) / 67)
+let s:l = 101 - ((56 * winheight(0) + 34) / 69)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 53
-normal! 031|
-lcd ~/personal/Todo
+keepjumps 101
+normal! 048|
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf
@@ -94,7 +95,6 @@ if filereadable(s:sx)
 endif
 let &g:so = s:so_save | let &g:siso = s:siso_save
 set hlsearch
-nohlsearch
 let g:this_session = v:this_session
 let g:this_obsession = v:this_session
 doautoall SessionLoadPost
