@@ -7,6 +7,14 @@ import UIKit
 class ReminderListViewController: UICollectionViewController {
     var dataSource: DataSource!
     var reminders: [Reminder] = Reminder.sampleData
+    var listStyle = ReminderListStyle.all
+    var filteredReminders: [Reminder] {
+        reminders.filter { listStyle.shouldInclude(date: $0.dueDate) }.sorted {
+            $0.dueDate < $1.dueDate
+        }
+    }
+
+    var listStyleSegmentedControl = UISegmentedControl(items: ReminderListStyle.allCases.map { $0.name })
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,17 +26,24 @@ class ReminderListViewController: UICollectionViewController {
 
         dataSource =
             DataSource(collectionView:
-                collectionView) { (collectionView: UICollectionView, indexPath: IndexPath, itemIdentifier: Reminder.ID)
-                    in
-                        collectionView.dequeueConfiguredReusableCell(
-                            using: cellRegistration, for: indexPath, item: itemIdentifier
-                        )
-            }
+                collectionView)
+        { (collectionView: UICollectionView, indexPath: IndexPath, itemIdentifier: Reminder.ID)
+            in
+                collectionView.dequeueConfiguredReusableCell(
+                    using: cellRegistration, for: indexPath, item: itemIdentifier
+                )
+        }
 
         let addButton =
             UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didPressAddButton(_:)))
         addButton.accessibilityLabel = NSLocalizedString("Add reminder", comment: "Add button accessibility label")
         navigationItem.rightBarButtonItem = addButton
+
+        listStyleSegmentedControl.selectedSegmentIndex = listStyle.rawValue
+        listStyleSegmentedControl.addTarget(self, action: #selector(didListStyleChange(_:)), for: .valueChanged)
+
+        navigationItem.titleView = listStyleSegmentedControl
+
         if #available(iOS 16.0, *) {
             navigationItem.style = .navigator
         }
@@ -41,7 +56,7 @@ class ReminderListViewController: UICollectionViewController {
     override func collectionView(
         _: UICollectionView, shouldSelectItemAt indexPath: IndexPath
     ) -> Bool {
-        let id = reminders[indexPath.item].id
+        let id = filteredReminders[indexPath.item].id
         pushDetailViewForReminder(withId: id)
         return false
     }
@@ -70,7 +85,7 @@ class ReminderListViewController: UICollectionViewController {
         let deleteActionTitle = NSLocalizedString("Delete", comment: "Delete action title")
         let deleteAction = UIContextualAction(style: .destructive, title: deleteActionTitle, handler: { [weak self] _, _, completion in
             self?.deleteReminder(withId: id)
-            self?.updateSnapshot(reloading: [id])
+            self?.updateSnapshot()
             completion(false)
         })
         return UISwipeActionsConfiguration(actions: [deleteAction])

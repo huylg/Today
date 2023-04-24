@@ -14,7 +14,7 @@ extension ReminderListViewController {
         let reminder = Reminder(title: "", dueDate: Date.now)
         let viewController = ReminderViewController(reminder: reminder, onChange: { [weak self] reminder in
             self?.addReminder(reminder)
-            self?.updateSnapshot(reloading: [reminder.id])
+            self?.updateSnapshot()
             self?.dismiss(animated: true)
         })
 
@@ -30,5 +30,11 @@ extension ReminderListViewController {
 
     @objc func didCancelAdd(_: UIBarButtonItem) {
         dismiss(animated: true)
+    }
+
+    @objc func didListStyleChange(_ sender: UISegmentedControl) {
+        let index = sender.selectedSegmentIndex
+        listStyle = ReminderListStyle(rawValue: index)!
+        updateSnapshot()
     }
 }
