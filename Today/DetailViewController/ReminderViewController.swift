@@ -13,13 +13,15 @@ class ReminderViewController: UICollectionViewController {
             onChange(reminder)
         }
     }
+
     var workingReminder: Reminder
+    var isAddNewReminder = false
     var onChange: (Reminder) -> Void
     private var dataSource: DataSource!
 
     init(reminder: Reminder, onChange: @escaping (Reminder) -> Void) {
         self.reminder = reminder
-        self.workingReminder = reminder
+        workingReminder = reminder
         self.onChange = onChange
         var listConfiguration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
         listConfiguration.showsSeparators = false
@@ -28,18 +30,22 @@ class ReminderViewController: UICollectionViewController {
         super.init(collectionViewLayout: listLayout)
     }
 
-    required init?(coder: NSCoder) {
+    @available(*, unavailable)
+    required init?(coder _: NSCoder) {
         fatalError("Always initialize ReminderViewController using init(reminder:)")
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         let cellRegistration = UICollectionView.CellRegistration(handler: cellRegistrationHandler)
-        dataSource = DataSource(collectionView: collectionView) {
-            (collectionView: UICollectionView, indexPath: IndexPath, itemIdentifier: Row) in
-            return collectionView.dequeueConfiguredReusableCell(
-                using: cellRegistration, for: indexPath, item: itemIdentifier)
-        }
+        dataSource =
+            DataSource(collectionView: collectionView) { (collectionView: UICollectionView,
+                                                          indexPath: IndexPath,
+                                                          itemIdentifier: Row) in
+                    collectionView.dequeueConfiguredReusableCell(
+                        using: cellRegistration, for: indexPath, item: itemIdentifier
+                    )
+            }
 
         if #available(iOS 16, *) {
             navigationItem.style = .navigator
@@ -54,6 +60,8 @@ class ReminderViewController: UICollectionViewController {
         super.setEditing(editing, animated: animated)
         if editing {
             prepareForEditing()
+        } else if isAddNewReminder {
+            onChange(workingReminder)
         } else {
             prepareForViewing()
         }
@@ -62,15 +70,15 @@ class ReminderViewController: UICollectionViewController {
     func cellRegistrationHandler(cell: UICollectionViewListCell, indexPath: IndexPath, row: Row) {
         let section = section(for: indexPath)
         switch (section, row) {
-        case (_, .header(let title)):
+        case let (_, .header(title)):
             cell.contentConfiguration = headerConfiguration(for: cell, with: title)
         case (.view, _):
             cell.contentConfiguration = defaultConfiguration(for: cell, at: row)
-        case (.title, .editableText(let title)):
+        case let (.title, .editableText(title)):
             cell.contentConfiguration = titleConfiguration(for: cell, with: title)
-        case (.date, .editableDate(let date)):
+        case let (.date, .editableDate(date)):
             cell.contentConfiguration = dateConfiguration(for: cell, with: date)
-        case (.notes, .editableText(let notes)):
+        case let (.notes, .editableText(notes)):
             cell.contentConfiguration = notesConfiguration(for: cell, with: notes)
         default:
             fatalError("Unexpected combination of section and row.")
@@ -85,7 +93,8 @@ class ReminderViewController: UICollectionViewController {
 
     private func prepareForEditing() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(
-            barButtonSystemItem: .cancel, target: self, action: #selector(didCancelEdit))
+            barButtonSystemItem: .cancel, target: self, action: #selector(didCancelEdit)
+        )
         updateSnapshotForEditing()
     }
 
@@ -93,11 +102,14 @@ class ReminderViewController: UICollectionViewController {
         var snapshot = Snapshot()
         snapshot.appendSections([.title, .date, .notes])
         snapshot.appendItems(
-            [.header(Section.title.name), .editableText(reminder.title)], toSection: .title)
+            [.header(Section.title.name), .editableText(reminder.title)], toSection: .title
+        )
         snapshot.appendItems(
-            [.header(Section.date.name), .editableDate(reminder.dueDate)], toSection: .date)
+            [.header(Section.date.name), .editableDate(reminder.dueDate)], toSection: .date
+        )
         snapshot.appendItems(
-            [.header(Section.notes.name), .editableText(reminder.notes)], toSection: .notes)
+            [.header(Section.notes.name), .editableText(reminder.notes)], toSection: .notes
+        )
         dataSource.apply(snapshot)
     }
 
@@ -113,7 +125,8 @@ class ReminderViewController: UICollectionViewController {
         var snapshot = Snapshot()
         snapshot.appendSections([.view])
         snapshot.appendItems(
-            [Row.header(""), Row.title, Row.date, Row.time, Row.notes], toSection: .view)
+            [Row.header(""), Row.title, Row.date, Row.time, Row.notes], toSection: .view
+        )
         dataSource.apply(snapshot)
     }
 
