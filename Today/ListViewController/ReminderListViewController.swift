@@ -6,7 +6,7 @@ import UIKit
 
 class ReminderListViewController: UICollectionViewController {
     var dataSource: DataSource!
-    var reminders: [Reminder] = Reminder.sampleData
+    var reminders: [Reminder] = []
     var listStyle = ReminderListStyle.all
     var filteredReminders: [Reminder] {
         reminders.filter { listStyle.shouldInclude(date: $0.dueDate) }.sorted {
@@ -28,12 +28,13 @@ class ReminderListViewController: UICollectionViewController {
 
         dataSource =
             DataSource(collectionView:
-                collectionView) { (collectionView: UICollectionView, indexPath: IndexPath, itemIdentifier: Reminder.ID)
-                    in
-                        collectionView.dequeueConfiguredReusableCell(
-                            using: cellRegistration, for: indexPath, item: itemIdentifier
-                        )
-            }
+                collectionView)
+        { (collectionView: UICollectionView, indexPath: IndexPath, itemIdentifier: Reminder.ID)
+            in
+                collectionView.dequeueConfiguredReusableCell(
+                    using: cellRegistration, for: indexPath, item: itemIdentifier
+                )
+        }
 
         let headerRegistration = UICollectionView.SupplementaryRegistration(
             elementKind: ProgressHeaderView.elementKind, handler: supplementaryRegistrationHandler
@@ -71,7 +72,10 @@ class ReminderListViewController: UICollectionViewController {
 
     var headerView: ProgressHeaderView?
     var progress: CGFloat {
-        CGFloat(filteredReminders.filter { $0.isComplete }.count) / CGFloat(filteredReminders.count)
+        if filteredReminders.isEmpty {
+            return 0
+        }
+        return CGFloat(filteredReminders.filter { $0.isComplete }.count) / CGFloat(filteredReminders.count)
     }
 
     override func collectionView(
