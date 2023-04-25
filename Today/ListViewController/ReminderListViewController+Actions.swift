@@ -36,5 +36,6 @@ extension ReminderListViewController {
         let index = sender.selectedSegmentIndex
         listStyle = ReminderListStyle(rawValue: index)!
         updateSnapshot()
+        refreshBackground()
     }
 }
